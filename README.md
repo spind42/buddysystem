@@ -10,15 +10,16 @@ Authors: Martijn Sack, Michael May
 
 Maintainer in spe: Claudio Harringer <claudio@buddynetwork.at>
 
-Feature requests (as user stories)
----
+Feature requests
+----------------
+(as user stories)
 
-User Alice wants to create, *modify* and safe a group assignment set.
+User Alice wants to create, **modify** and safe a group assignment set.
 
-IN: move a person to another group
-IN: remove a person from the match proposal
-IN: see the name, date and some info about each person
-OUT: eye-candy and nice interface; maybe text-only, just has to do the job
+* IN: move a person to another group
+* IN: remove a person from the match proposal
+* IN: see the name, date and some info about each person
+* OUT: eye-candy and nice interface; maybe text-only, just has to do the job
 
 User Alice wants to list incomings ordered by arrival date.
 
@@ -33,8 +34,12 @@ User Louis and Ida want to receive all chat messages by email per default.
 Personas
 ---
 
-Alice...admin user
-Steve...sysadmin
-Louis...local buddy
-Ida...incoming exchange student
-Spambot...un-desirable guest
+Alice ... admin user
+
+Steve ... sysadmin
+
+Louis ... local buddy
+
+Ida ... incoming exchange student
+
+Spambot ... un-desirable guest
