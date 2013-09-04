@@ -8,7 +8,41 @@ License: not yet decided.
 
 Authors: Martijn Sack, Michael May
 
-Maintainer in spe: Claudio Harringer <claudio@buddynetwork.at>
+Maintainer: Claudio Harringer <claudio@buddynetwork.at>
+
+Disclaimer: Here, maintainer is defined as someone who is running this system,
+but not involved in development. I just put it here on github
+hoping that someone sees it and wants to start developing :)
+
+Roadmap
+-------
+
+Where to find configuration? -> ./config.php
+
+Where to find text templates? -> ./actions/templates/\*.tpl
+
+Which libraries are used?
+
+* Smarty (template lib)
+* some DAO (database abstraction)
+
+What patterns are in the code?
+
+* MVC. M is in ./dao/, V is ./actions/templates/, C is ./actions/
+
+What's all not yet in this repository?
+-> All personal stuff like templates and configs. See .gitignore.
+
+How to start developing? -> Well, that's not 100% easy:
+
+* Setup a mysql database
+* Ask the maintainer to produce and send you an anonymised
+  ./config.php, ./email/Mailer.php, ./js/calendar/calendar\_eu.js
+  and a bunch of \*.tpl
+* Fill some data in your database. See "ask maintainer".
+* Setup a small email server.
+* Use test email addresses or code yourself some 
+* Yeah, now start playing around and developing!
 
 Feature requests
 ----------------
