@@ -41,14 +41,18 @@ What's all not yet in this repository?
 How to start developing? -> Well, that's not 100% easy:
 
 * Setup a mysql database.
-* Copy ./config.php.example to ./config.php and set your local config,
-  same for ./email/Mailer.php and js/calendar/calendar\_eu.js and all the
-  templates, i.e. ./actions/templates/\*.tpl
-* Have a look for the word "example" in each template and replace it.
-* Fill some data in your database. Or just ask the maintainer for help.
-* Setup a small email server.
+* Setup a mail server.
+* Create the database using ./docs/create.sql.example
+* Copy each FILE.example to FILE
+  * set up your local ./config.php
+  * set up your local ./email/Mailer.php
+  * optionally, update all the ./actions/templates/\*.tpl
+  * optionally, update js/calendar/calendar\_eu.js
 * Use test email addresses or code yourself some development mode.
 * Yeah, now start playing around and developing!
+
+Once you've done something you want to share, you may
+make a push request on Github or send a patch to the maintainer.
 
 Feature requests
 ----------------
