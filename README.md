@@ -42,9 +42,9 @@ How to start developing? -> Well, that's not 100% easy:
 
 * Setup a mysql database.
 * Copy ./config.php.example to ./config.php and set your local config,
-  same for ./email/Mailer.php and js/calendar/calendar\_eu.js
-* Ask the maintainer to produce and send you a bunch of anonymised web page
+  same for ./email/Mailer.php and js/calendar/calendar\_eu.js and all the
   templates, i.e. ./actions/templates/\*.tpl
+* Have a look for the word "example" in each template and replace it.
 * Fill some data in your database. Or just ask the maintainer for help.
 * Setup a small email server.
 * Use test email addresses or code yourself some development mode.
