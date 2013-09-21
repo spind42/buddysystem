@@ -2,7 +2,12 @@ Buddysystem
 ===========
 
 Software to bring local and foreign students together and create friendships
-all over the world :)
+all over the world.
+
+This system is used by some Erasmus Student Union (ESN) Sections to let local
+and incoming foreign students sign up and be mixed together to so-called buddy
+groups. All user interaction happens through the web interface and by email
+notifications.
 
 License: not yet decided.
 
@@ -12,7 +17,7 @@ Maintainer: Claudio Harringer <claudio@buddynetwork.at>
 
 Disclaimer: Here, maintainer is defined as someone who is running this system,
 but not involved in development. I just put it here on github
-hoping that someone sees it and wants to start developing :)
+hoping that someone sees it and starts developing :)
 
 Roadmap
 -------
@@ -35,13 +40,14 @@ What's all not yet in this repository?
 
 How to start developing? -> Well, that's not 100% easy:
 
-* Setup a mysql database
-* Ask the maintainer to produce and send you an anonymised
-  ./config.php, ./email/Mailer.php, ./js/calendar/calendar\_eu.js
-  and a bunch of \*.tpl
-* Fill some data in your database. See "ask maintainer".
+* Setup a mysql database.
+* Copy ./config.php.example to ./config.php and set your local config,
+  same for ./email/Mailer.php and js/calendar/calendar\_eu.js
+* Ask the maintainer to produce and send you a bunch of anonymised web page
+  templates, i.e. ./actions/templates/\*.tpl
+* Fill some data in your database. Or just ask the maintainer for help.
 * Setup a small email server.
-* Use test email addresses or code yourself some 
+* Use test email addresses or code yourself some development mode.
 * Yeah, now start playing around and developing!
 
 Feature requests
