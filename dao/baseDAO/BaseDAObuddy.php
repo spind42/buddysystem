@@ -13,17 +13,25 @@ class BaseDAObuddy {
 	}
 
 	function delete($authHash){
-		$query = "DELETE from `buddy_buddy` WHERE authHash='".mysql_real_escape_string($authHash)."'";
+		//$query = "DELETE from `buddy_buddy` WHERE authHash='".mysql_real_escape_string($authHash)."'";
 		
-		$resultInsert = mysql_query($query,$_SESSION['link']);
-		$_SESSION['session_id'] = mysql_insert_id($_SESSION['link']);
+                $pdo = $_SESSION['pdo'];
+                $stm=$pdo->prepare("DELETE from buddy_buddy WHERE authHash=:authHash");
+                $stm->bindParam(':authHash', $authHash, PDO::PARAM_STR);
+                
+                $resultInsert=$stm->execute();
+                                
+                
+		//$resultInsert = mysql_query($query,$_SESSION['link']);
+		//$_SESSION['session_id'] = mysql_insert_id($_SESSION['link']);
 		
 		if($resultInsert == TRUE){
 //			print "Inserting data was successful";
 		}
 		else{
-			//print("database error while inserting buddy");
-			die("database error while inserting buddy: ". mysql_error());
+			print("database error while inserting buddy");
+			//die("database error while inserting buddy: ". mysql_error());
+                    
 			return "false";
 		}	
 		
@@ -38,52 +46,97 @@ class BaseDAObuddy {
 	 */
 	function checkEmail($type, $email) {
 		if($type == 'buddy'){
-			$query = "SELECT * from `buddy_buddy` where email='".mysql_real_escape_string($email)."'";
+			$query = "SELECT count(email) AS COUNT from buddy_buddy where email=:email";
 		}
 		if($type == 'incoming'){
-			$query = "SELECT * from `buddy_incoming` where email='".mysql_real_escape_string($email)."'";
+			$query = "SELECT count(email) AS COUNT buddy_incoming where email=:email";
 		}		
 		
-		$resultSelect = mysql_query($query,$_SESSION['link']);
-		
-		if(mysql_num_rows($resultSelect) != 0){
-			return FALSE;
-		}
-		
-		return TRUE;
+                $pdo = $_SESSION['pdo'];
+                $stm=$pdo->prepare($query);
+                $stm->bindParam(':email', $email, PDO::PARAM_STR);
+                
+                //$result = $stm->execute(); -> wenn falsch, dann fehler mit query
+                
+                $row = $stm->fetch();
+                if( $row['count'] == 0 ){
+                    return TRUE;
+                }
+                		
+		return FALSE;
 	}
 	
 	function save($buddy) {
-		$query = "INSERT INTO `buddy_buddy` (firstName,lastName,email,idPreferredCountryFirst,idPreferredCountrySecond,idPreferredCountryThird,idStudy,tandem,preferredInfoEvening,buddyBefore,authHash,locked,dateAvailable,dateAdded) 
-		VALUES(
-		'".mysql_real_escape_string($buddy->getFirstName())."',
-		'".mysql_real_escape_string($buddy->getLastName())."',
-		'".mysql_real_escape_string($buddy->getEmail())."',
-		'".mysql_real_escape_string($buddy->getIdPreferredCountryFirst())."',
-		'".mysql_real_escape_string($buddy->getIdPreferredCountrySecond())."',
-		'".mysql_real_escape_string($buddy->getIdPreferredCountryThird())."',
-		'".mysql_real_escape_string($buddy->getIdStudy())."',
-		'".mysql_real_escape_string($buddy->getTandem())."',
-		'".mysql_real_escape_string($buddy->getPreferredInfoEvening())."',
-		'".mysql_real_escape_string($buddy->getBuddyBefore())."',
-		'".mysql_real_escape_string($buddy->getAuthHash())."',
-		'".mysql_real_escape_string($buddy->getLocked())."',
-		'".mysql_real_escape_string($buddy->getDateAvailable())."',
-		now()		
+		$query = "INSERT INTO 'buddy_buddy'
+                    (firstName,
+                    lastName,
+                    email,
+                    idPreferredCountryFirst,
+                    idPreferredCountrySecond,
+                    idPreferredCountryThird,
+                    idStudy,
+                    tandem,
+                    preferredInfoEvening,
+                    buddyBefore,
+                    authHash,
+                    locked,
+                    dateAvailable,
+                    mailed
+              )VALUES(
+                    :firstName,
+                    :lastName,
+                    :email,
+                    :preferredCountryFirst,
+                    :preferredCountrySecond,
+                    :preferredCountryThird,
+                    :studyId,
+                    :tandem,
+                    :preferredInfoEvening,
+                    :buddyBefore,
+                    :authHash,
+                    :locked,
+                    :dateAvailable,
+                    0
 		)";
 		
-		$resultInsert = mysql_query($query,$_SESSION['link']);
-		$_SESSION['session_id'] = mysql_insert_id($_SESSION['link']);
+                $pdo = $_SESSION['pdo'];
+                print $query;
+                $stm = $pdo->prepare($query);
+                print "prepared";
+                
+                $stm->bindValue( ':firstName', $buddy->getFirstName(), PDO::PARAM_STR );
+                $stm->bindValue( ':lastName', $buddy->getLastName(), PDO::PARAM_STR );
+                $stm->bindValue( ':email', $buddy->getEmail(), PDO::PARAM_STR );
+                $stm->bindValue( ':preferredCountryFirst', $buddy->getIdPreferredCountryFirst(), PDO::PARAM_INT );
+                $stm->bindValue( ':preferredCountrySecond', $buddy->getIdPreferredCountrySecond(), PDO::PARAM_INT );
+                $stm->bindValue( ':preferredCountryThird', $buddy->getIdPreferredCountryThird(), PDO::PARAM_INT );
+                $stm->bindValue( ':studyId', $buddy->getIdStudy(), PDO::PARAM_INT );
+                $stm->bindValue( ':tandem', $buddy->getTandem(), PDO::PARAM_INT );
+                $stm->bindValue( ':preferredInfoEvening', $buddy->getPreferredInfoEvening(), PDO::PARAM_INT );
+                $stm->bindValue( ':buddyBefore', $buddy->getBuddyBefore(), PDO::PARAM_INT );
+                $stm->bindValue( ':authHash', $buddy->getAuthHash(), PDO::PARAM_STR );
+                $stm->bindValue( ':locked', $buddy->getBuddyBefore(), PDO::PARAM_INT );
+                $stm->bindValue( ':dateAvailable', $buddy->getDateAvailable(), PDO::PARAM_STR );
+                //$stm->bindValue( ':now', date( DateTime::RFC2822, time() ), PDO::PARAM_STR );
+                
+                //print $stm->debugDumpParams();                           
+                
+                $resultInsert = $stm->execute();
+                
+                
+		//$resultInsert = mysql_query($query,$_SESSION['link']);
+		//$_SESSION['session_id'] = mysql_insert_id($_SESSION['link']);
 		
 		if($resultInsert == TRUE){
 //			print "Inserting data was successful";
+                    return TRUE;
 		}
 		else{
 			print("database error while inserting buddy");
 //			die("database error while inserting buddy: ". mysql_error());
 		}	
 		
-		return true;
+		return false;
 	}
 	
 	function update($buddy) {

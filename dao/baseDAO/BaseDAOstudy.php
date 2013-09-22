@@ -10,20 +10,21 @@ class BaseDAOstudy {
 	
 	function findAll(){
 		$pdo = $_SESSION['pdo'];
-                $res=$pdo->query("select id,study from buddy_study order by study");
+                $stm=$pdo->prepare("select id,study from buddy_study order by study");
+                $stm->execute();
                 //$result = $stmt->execute();
                                
 
-		if($res == TRUE){
-			//print "Fetching data was successful";
-		}
-		else{
-			//die("Fetching groups database error: ". mysql_error());
-		}		
+//		if($res == TRUE){
+//			//print "Fetching data was successful";
+//		}
+//		else{
+//			//die("Fetching groups database error: ". mysql_error());
+//		}		
 
 		$studies[0] = "select...";
 		
-		foreach( $res as $row ) {
+		while( $row = $stm->fetch( PDO::FETCH_OBJ ) ){
 
 		    $studies[$row->id] = $row->study;
 		}

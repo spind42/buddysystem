@@ -1,8 +1,12 @@
 <?php
         $file = dirname(__FILE__) . DIRECTORY_SEPARATOR;
 
-        $_SESSION['pdo'] = new PDO( 'sqlite:buddysystem.sqlite' );
+        $pdo = new PDO( 'sqlite:buddysystem.sqlite' );
 
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        
+        $_SESSION['pdo'] = $pdo;
+        
         date_default_timezone_set("Europe/Vienna");
         
         
@@ -38,8 +42,9 @@
 	);*/
 	$GLOBALS['buddysys_prefLanguage'] = false;
 
-
-	$buddysys_baseUrl = "http://www.example.com/buddysystem/";
+        $buddysys_baseUrl = "http://localhost:8000/";
+        
+	//$buddysys_baseUrl = "http://www.example.com/buddysystem/";
 
 	// smarty config
 	$smarty_template_dir = 'actions/templates';

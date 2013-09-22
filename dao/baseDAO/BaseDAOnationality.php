@@ -8,18 +8,18 @@ class BaseDAOnationality {
 
     function findAll() {
         $pdo = $_SESSION['pdo'];
-        $res = $pdo->query("select id,short_name from buddy_nationality order by short_name");
-
+        $stm = $pdo->prepare("select id,short_name from buddy_nationality order by short_name");
+        $stm->execute();
         //$resultSelect = mysql_query($query,$_SESSION['link']);
 
-        if ($res == TRUE) {
+        //if ($res == TRUE) {
             //print "Fetching data was successful";
-        } else {
-            die("Fetching groups database error: ");
-        }
+        //} else {
+        //    die("Fetching groups database error: ");
+        //}
 
         $countries[0] = "select...";
-        foreach( $res as $row ){
+        while( $row = $stm->fetch( PDO::FETCH_OBJ ) ){
             $countries[$row->id] = $row->short_name;
         }
 
