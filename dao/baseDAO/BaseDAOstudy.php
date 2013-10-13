@@ -9,7 +9,7 @@ class BaseDAOstudy {
 	}
 	
 	function findAll(){
-		$pdo = $_SESSION['pdo'];
+		$pdo = $GLOBALS['pdo'];
                 $stm=$pdo->prepare("select id,study from buddy_study order by study");
                 $stm->execute();
                 //$result = $stmt->execute();
@@ -31,9 +31,13 @@ class BaseDAOstudy {
 		return($studies);		
 	}
 	
-	function findById($id){	
-		$query = "select id,study from buddy_study WHERE id='".mysql_real_escape_string($id)."';";
-		$resultSelect = mysql_query($query,$_SESSION['link']);
+	function findById($id){
+		$query = "select id,study from buddy_study WHERE id=:id";
+                
+                $pdo = $GLOBALS['pdo'];
+                $stm=$pdo->prepare($query);
+                
+		$resultSelect = $stm->execute();
 		if($resultSelect == TRUE){
 			//print "Fetching data was successful";
 		}
@@ -41,7 +45,7 @@ class BaseDAOstudy {
 			die("Fetching nationality error");
 		}		
 
-		$incomingRow = mysql_fetch_array($resultSelect);
+		$incomingRow = $stm->fetch();
 		//var_export($incomingRow);
 		$study = array();
 		$study['id'] = $incomingRow['id'];
