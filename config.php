@@ -5,7 +5,7 @@
 
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         
-        $_SESSION['pdo'] = $pdo;
+        $GLOBALS['pdo'] = $pdo;
         
         date_default_timezone_set("Europe/Vienna");
         
