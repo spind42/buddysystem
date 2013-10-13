@@ -7,7 +7,7 @@ class BaseDAOnationality {
     }
 
     function findAll() {
-        $pdo = $_SESSION['pdo'];
+        $pdo = $GLOBALS['pdo'];
         $stm = $pdo->prepare("select id,short_name from buddy_nationality order by short_name");
         $stm->execute();
         //$resultSelect = mysql_query($query,$_SESSION['link']);
@@ -31,15 +31,21 @@ class BaseDAOnationality {
             $id = 14;
         }
 
-        $query = "select id,short_name from buddy_nationality WHERE id='" . mysql_real_escape_string($id) . "';";
-        $resultSelect = mysql_query($query, $_SESSION['link']);
+        $query = "select id,short_name from buddy_nationality WHERE id=:id";
+        
+        $pdo = $GLOBALS['pdo'];
+        $stm=$pdo->prepare($query);
+        $stm->bindValue(":id", $id );
+        
+        
+        $resultSelect = $stm->execute();
         if ($resultSelect == TRUE) {
             //print "Fetching data was successful";
         } else {
             die("Fetching nationality error");
         }
 
-        $incomingRow = mysql_fetch_array($resultSelect);
+        $incomingRow = $stm->fetch();
         //var_export($incomingRow);
         $country = array();
         $country['id'] = $incomingRow['id'];
