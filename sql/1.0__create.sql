@@ -58,17 +58,18 @@ CREATE TABLE IF NOT EXISTS `buddy_chatMessages` (
   PRIMARY KEY  (`id`)
 );
 
+
 CREATE TABLE IF NOT EXISTS `buddy_incoming` (
-  `id` int(13) NOT NULL auto_increment,
-  `firstName` varchar(255) character set latin1 NOT NULL,
-  `lastName` varchar(255) character set latin1 NOT NULL,
-  `email` varchar(255) collate utf8_bin NOT NULL,
+  `id` int(13) NOT NULL, -- auto_increment,
+  `firstName` varchar(255) NOT NULL,
+  `lastName` varchar(255)  NOT NULL,
+  `email` varchar(255) NOT NULL,
   `idNationality` int(13) NOT NULL,
-  `preferredLanguage` int(13) NOT NULL COMMENT '0=English 1=German',
+  `preferredLanguage` int(13) NOT NULL,
   `dateArrival` datetime NOT NULL,
-  `dateAdded` timestamp NOT NULL default '0000-00-00 00:00:00' on update CURRENT_TIMESTAMP,
+  `dateAdded` timestamp NOT NULL,
   `idStudy` int(13) NOT NULL,
-  `authHash` varchar(255) collate utf8_bin NOT NULL,
+  `authHash` varchar(255) NOT NULL,
   `locked` int(11) NOT NULL,
   `dateLogin` datetime NOT NULL,
   `idGroup` int(13) NOT NULL,
