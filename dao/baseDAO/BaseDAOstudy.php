@@ -36,7 +36,7 @@ class BaseDAOstudy {
                 
                 $pdo = $GLOBALS['pdo'];
                 $stm=$pdo->prepare($query);
-                
+                $stm->bindValue(":id", $id );
 		$resultSelect = $stm->execute();
 		if($resultSelect == TRUE){
 			//print "Fetching data was successful";

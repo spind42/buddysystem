@@ -60,6 +60,7 @@ class BaseDAObuddy {
                 //$result = $stm->execute(); -> wenn falsch, dann fehler mit query
                 
                 $row = $stm->fetch();
+
                 if( $row['count'] == 0 ){
                     return TRUE;
                 }
@@ -68,7 +69,7 @@ class BaseDAObuddy {
 	}
 	
 	function save($buddy) {
-		$query = "INSERT INTO 'buddy_buddy'
+		$query = "INSERT INTO buddy_buddy
                     (firstName,
                     lastName,
                     email,
@@ -88,7 +89,7 @@ class BaseDAObuddy {
                     :lastName,
                     :email,
                     :idPreferredCountryFirst,
-                    :idPreferredCountrySecond,
+                    :idPeferredCountrySecond,
                     :idPreferredCountryThird,
                     :idStudy,
                     :tandem,
@@ -498,7 +499,10 @@ class BaseDAObuddy {
 	function getAll() {
 		$query = "select id,firstName,lastName,email,idStudy,dateAvailable,authHash,idGroup,locked from buddy_buddy";
 		
-		$resultSelect = mysql_query($query,$_SESSION['link']);
+                $pdo = $GLOBALS['pdo'];
+                $stm=$pdo->prepare($query);
+                
+		$resultSelect = $stm->execute();
 
 		if($resultSelect == TRUE){
 			//print "Fetching data was successful";
@@ -511,7 +515,7 @@ class BaseDAObuddy {
 		$studyDAO = new BaseDAOstudy();
 //		$country = $nationalityDAO->findById($idNationality);
 		
-		while ($buddyRow = mysql_fetch_array($resultSelect, MYSQL_NUM)) {
+		while ( $buddyRow = $stm->fetch() ) {
 			$buddy = array();
 			$buddy['id'] = $buddyRow[0];
 			$buddy['firstName'] = $buddyRow[1];
