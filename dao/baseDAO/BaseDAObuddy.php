@@ -282,9 +282,13 @@ class BaseDAObuddy {
 	}
 	
 	function findByAuthHash($authHash){
-		$query = "select id,firstName,lastName,email,idPreferredCountryFirst,idPreferredCountrySecond,idPreferredCountryThird,idStudy,tandem,preferredInfoEvening,buddyBefore,dateAvailable,authHash,idGroup from buddy_buddy WHERE authHash='".mysql_real_escape_string($authHash)."'";
+		$query = "select id,firstName,lastName,email,idPreferredCountryFirst,idPreferredCountrySecond,idPreferredCountryThird,idStudy,tandem,preferredInfoEvening,buddyBefore,dateAvailable,authHash,idGroup from buddy_buddy WHERE authHash=:authHash";
 		
-		$resultSelect = mysql_query($query,$_SESSION['link']);
+                $pdo = $GLOBALS['pdo'];
+                $stm = $pdo->prepare( $query );
+                $stm->bindValue( ":authHash", $authHash );
+                
+		$resultSelect = $stm->execute();
 
 		if($resultSelect == TRUE){
 			//print "Fetching data was successful";
@@ -292,11 +296,11 @@ class BaseDAObuddy {
 		else{
 			print "Fetching users database error";
 			die;
-//			die("Fetching users database error: ". mysql_error());
+//	
 		}		
 
-		$buddyRow = mysql_fetch_array($resultSelect);
-		
+		$buddyRow = $stm->fetch();
+                        
 		$buddy = new Buddy();
 		$buddy->setId($buddyRow['id']);
 		$buddy->setFirstName($buddyRow['firstName']);
@@ -337,7 +341,6 @@ class BaseDAObuddy {
 		else{
 			print "Fetching users database error";
 			die;
-//			die("Fetching users database error: ". mysql_error());
 		}		
 
 		
